@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+package service.paymentpb;
+option go_package = "../paymentpb";
+
+enum PaymentMethod {
+    BNI = 0;
+    GOPAY = 1;
+    SHOPEEPAY = 2;
+    PAYPAL = 3;
+    METAMASK = 4;
+}
+
+message CreatePaymentResponse {
+    string payment_id = 1;
+    string payment_link = 2;
+    google.protobuf.Timestamp expired = 3;
+}
+
+message CreatePaymentRequest {
+    string order_id = 1;
+    float total_amount = 2;
+    PaymentMethod payment_method = 3;
+}
+
+service Payment {
+  rpc CreatePayment(CreatePaymentRequest) returns (CreatePaymentResponse) {}
+}
+
